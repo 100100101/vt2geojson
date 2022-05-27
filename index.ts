@@ -1,4 +1,4 @@
-const vt = require('vector-tile')
+const vt = require('@mapbox/vector-tile')
 const request = require('request')
 const Protobuf = require('pbf')
 const format = require('util').format
