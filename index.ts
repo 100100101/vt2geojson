@@ -6,7 +6,7 @@ const fs = require('node:fs')
 const url = require('url')
 const zlib = require('zlib')
 
-const readTile = (args, buffer) => {
+export const readTile = (args, buffer) => {
     // handle zipped buffers
     if (buffer[0] === 0x78 && buffer[1] === 0x9c) {
         buffer = zlib.inflateSync(buffer)
@@ -22,7 +22,7 @@ const readTile = (args, buffer) => {
     const features: any[] = []
     const collection = { type: 'FeatureCollection', features }
 
-    layers.forEach(function (layerID) {
+    layers.forEach(layerID => {
         const layer = tile.layers[layerID]
         if (layer) {
             for (let i = 0; i < layer.length; i++) {
