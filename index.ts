@@ -1,10 +1,11 @@
-const vt = require('@mapbox/vector-tile')
-const request = require('request')
-const Protobuf = require('pbf')
-const format = require('util').format
-const fs = require('node:fs')
-const url = require('url')
-const zlib = require('zlib')
+import vt from '@mapbox/vector-tile'
+import request from 'request'
+import Protobuf from 'pbf'
+import fs from 'node:fs'
+import url from 'url'
+import zlib from 'zlib'
+import util from 'node:util'
+const format = util.format
 
 export const readTile = (args, buffer) => {
     // handle zipped buffers
@@ -65,11 +66,9 @@ export default async args => {
         }
     }
 
-    const parsed = url.parse(args.uri)
-    if (
-        parsed.protocol &&
-        (parsed.protocol === 'http:' || parsed.protocol === 'https:')
-    ) {
+    const parsed: any = url.parse(args.uri)
+    const parsedProtocol = parsed.protocol
+    if (parsedProtocol === 'http:' || parsedProtocol === 'https:') {
         const headers = args.headers
         await new Promise((resolve, reject) => {
             request.get(
@@ -110,7 +109,7 @@ export default async args => {
             )
         })
     } else {
-        if (parsed.protocol && parsed.protocol === 'file:') {
+        if (parsedProtocol === 'file:') {
             args.uri = parsed.host + parsed.pathname
         }
         fs.lstat(args.uri, (err, stats) => {
