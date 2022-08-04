@@ -7,7 +7,7 @@ import zlib from 'zlib'
 import util from 'node:util'
 const format = util.format
 
-export const readTile = (args, buffer) => {
+export const geojsonFromVt = (args, buffer) => {
     // handle zipped buffers
     if (buffer[0] === 0x78 && buffer[1] === 0x9c) {
         buffer = zlib.inflateSync(buffer)
@@ -102,7 +102,7 @@ export default async args => {
                     }
 
                     tileBuffer = body
-                    geoJsonTile = readTile(args, body)
+                    geoJsonTile = geojsonFromVt(args, body)
 
                     resolve(geoJsonTile)
                 }
@@ -117,7 +117,7 @@ export default async args => {
             if (stats.isFile()) {
                 const data = fs.readFileSync(args.uri)
                 // tileBuffer = body
-                geoJsonTile = readTile(args, data)
+                geoJsonTile = geojsonFromVt(args, data)
             }
         })
     }
